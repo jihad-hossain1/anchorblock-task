@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .cbtn {
+    @apply hover:shadow transition-all duration-300 rounded-lg px-3 py-1 shadow-sm;
+  }
+}
