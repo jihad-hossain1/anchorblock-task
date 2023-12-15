@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import LoginLogo from "./LoginLogo";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
@@ -19,7 +19,7 @@ const SignUp = () => {
     email: isEmail,
   } = useSelector((state) => state.userSlice);
   // console.log(email);
-  console.log(isEmail?.user?.uid);
+  console.log(isEmail);
   const {
     register,
     handleSubmit,

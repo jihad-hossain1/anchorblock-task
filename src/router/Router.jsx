@@ -7,6 +7,7 @@ import Tasks from "../pages/Dashboard/Tasks/Tasks";
 import Projects from "../pages/Dashboard/Projects/Projects";
 import SignIn from "../pages/Authentication/SignIn";
 import SignUp from "../pages/Authentication/SignUp";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -14,12 +15,16 @@ export const router = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       {
-        path: "/",
+        index: true,
         element: <DashboardHome />,
       },
       {
         path: "/users",
-        element: <Users />,
+        element: (
+          <PrivateRoute>
+            <Users />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/projects",

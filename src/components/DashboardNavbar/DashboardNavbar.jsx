@@ -4,9 +4,9 @@ import Paper from "./Paper";
 import { GoBell } from "react-icons/go";
 import { SlMagnifier } from "react-icons/sl";
 import { CiSettings } from "react-icons/ci";
-import { BiSolidUser } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { motion_nav } from "../../utils/fremer.motion";
+import Dropdown from "../Dropdown/Dropdown";
 
 const DashboardNavbar = () => {
   return (
@@ -48,9 +48,9 @@ const DashboardNavbar = () => {
             <button>
               <CiSettings size={23} />
             </button>
-            <button>
-              <BiSolidUser size={23} />
-            </button>
+            <>
+              <Dropdown />
+            </>
           </motion.div>
         </section>
       </div>

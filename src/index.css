@@ -12,4 +12,7 @@
   .cinpt {
     @apply focus:outline-[#6941C6] w-full p-2 rounded-md border border-[#D6BBFB];
   }
+  .chover {
+    @apply cursor-pointer px-10 hover:bg-slate-100/30 rounded hover:translate-x-1 hover:translate-y-1 transition-all duration-300 w-fit py-3;
+  }
 }
