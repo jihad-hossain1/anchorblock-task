@@ -6,4 +6,7 @@
   .cbtn {
     @apply hover:shadow transition-all duration-300 rounded-lg px-3 py-1 shadow-sm;
   }
+  .trd {
+    @apply border-b transition duration-300 ease-in-out hover:bg-neutral-100/5 dark:border-neutral-50 dark:hover:bg-neutral-50;
+  }
 }
