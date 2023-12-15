@@ -1,11 +1,18 @@
 import { Link } from "react-router-dom";
 import LoginLogo from "./LoginLogo";
+import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
+import { framer_error } from "../../utils/fremer.motion";
 
 const SignIn = () => {
-  //
-
-  const handleSumbit = (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    console.log(data);
   };
 
   return (
@@ -21,16 +28,51 @@ const SignIn = () => {
           </h4>
         </div>
         <form
-          onSubmit={handleSumbit}
+          onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-5 w-full md:w-[330px] mx-auto"
         >
           <div className="flex flex-col gap-3">
             <label htmlFor="email">Email</label>
-            <input type="email" name="email" className="cinpt" />
+            <input
+              {...register("email", {
+                required: {
+                  value: true,
+                  message: "Email field is required",
+                },
+              })}
+              type="email"
+              name="email"
+              className={` ${
+                errors.email && "focus:outline-red-500 border border-red-500"
+              } cinpt`}
+            />
+            {errors.email && (
+              <motion.span {...framer_error} className="text-sm text-red-600">
+                {errors?.email.message}
+              </motion.span>
+            )}
           </div>
           <div className="flex flex-col gap-3">
             <label htmlFor="password">Password</label>
-            <input type="password" name="password" className="cinpt" />
+            <input
+              {...register("password", {
+                required: {
+                  value: true,
+                  message: "password field is required",
+                },
+              })}
+              type="password"
+              name="password"
+              className={` ${
+                errors.password && "focus:outline-red-500 border border-red-500"
+              } cinpt`}
+            />
+
+            {errors.password && (
+              <motion.span {...framer_error} className="text-sm text-red-600">
+                {errors.password.message}
+              </motion.span>
+            )}
           </div>
           <div>
             <button

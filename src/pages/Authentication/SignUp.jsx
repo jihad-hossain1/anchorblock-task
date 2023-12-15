@@ -4,11 +4,13 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { framer_error } from "../../utils/fremer.motion";
+import PasswordStrengthBar from "./PasswordStrengthBar";
 
 const SignUp = () => {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
@@ -32,7 +34,17 @@ const SignUp = () => {
           <div className="flex flex-col gap-3">
             <label htmlFor="email">Email</label>
             <input
-              {...register("email", { required: true })}
+              {...register("email", {
+                required: {
+                  value: true,
+                  message: "Email field is required",
+                },
+                pattern: {
+                  value:
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                  message: "Email must be valid",
+                },
+              })}
               type="email"
               name="email"
               className={` ${
@@ -41,23 +53,37 @@ const SignUp = () => {
             />
             {errors.email && (
               <motion.span {...framer_error} className="text-sm text-red-600">
-                Email field is required
+                {errors?.email.message}
               </motion.span>
             )}
           </div>
           <div className="flex flex-col gap-3">
             <label htmlFor="password">Password</label>
             <input
-              {...register("password", { required: true })}
+              {...register("password", {
+                required: {
+                  value: true,
+                  message: "password field is required",
+                },
+                pattern: {
+                  value:
+                    /^(?=.*[0-9])(?=.*[!@#$%^&*.,])[a-zA-Z0-9!@#$%^&*.,]{6,16}$/,
+                  message:
+                    "Password must contain atleast 6 characters,one uppercase, one lowercase, one number and one special case character",
+                },
+              })}
               type="password"
               name="password"
               className={` ${
                 errors.password && "focus:outline-red-500 border border-red-500"
               } cinpt`}
             />
+            <PasswordStrengthBar
+              newpassvalue={getValues().password?.toString()}
+            />
             {errors.password && (
               <motion.span {...framer_error} className="text-sm text-red-600">
-                Password field is required
+                {errors.password.message}
               </motion.span>
             )}
           </div>

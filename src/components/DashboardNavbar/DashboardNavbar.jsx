@@ -5,6 +5,8 @@ import { GoBell } from "react-icons/go";
 import { SlMagnifier } from "react-icons/sl";
 import { CiSettings } from "react-icons/ci";
 import { BiSolidUser } from "react-icons/bi";
+import { motion } from "framer-motion";
+import { motion_nav } from "../../utils/fremer.motion";
 
 const DashboardNavbar = () => {
   return (
@@ -21,7 +23,7 @@ const DashboardNavbar = () => {
             {/* route section  */}
             <ul className="flex items-center gap-10">
               {navData?.map(({ path, label }, _i) => (
-                <li key={_i}>
+                <motion.li {...motion_nav} key={_i}>
                   <NavLink
                     className={({ isActive }) =>
                       isActive
@@ -32,13 +34,13 @@ const DashboardNavbar = () => {
                   >
                     {label}
                   </NavLink>
-                </li>
+                </motion.li>
               ))}
             </ul>
           </nav>
 
           {/* login section  */}
-          <div className="flex items-center gap-6">
+          <motion.div {...motion_nav} className="flex items-center gap-6">
             <SlMagnifier size={21} />
             <button>
               <GoBell size={21} />
@@ -49,7 +51,7 @@ const DashboardNavbar = () => {
             <button>
               <BiSolidUser size={23} />
             </button>
-          </div>
+          </motion.div>
         </section>
       </div>
     </main>
