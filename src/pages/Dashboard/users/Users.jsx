@@ -3,6 +3,8 @@ import { GoPlus, GoTrash, GoPencil } from "react-icons/go";
 import { FiMinus } from "react-icons/fi";
 import { HiArrowDown } from "react-icons/hi2";
 import { useState } from "react";
+import { motion } from "framer-motion";
+import { framer_error } from "../../../utils/fremer.motion";
 
 const Users = () => {
   const [isSelectTab, setIsSelectTab] = useState(true);
@@ -30,7 +32,7 @@ const Users = () => {
                 <table className="min-w-full text-left text-sm  border border-gray-300 rounded-lg">
                   <thead className=" border-b font-medium dark:border-neutral-200">
                     <tr>
-                      <th className="px-6 py-4">
+                      <motion.th {...framer_error} className="px-6 py-4">
                         <div className="flex items-center gap-6">
                           {!isSelectTab ? (
                             <button
@@ -52,17 +54,24 @@ const Users = () => {
                             <HiArrowDown />
                           </div>
                         </div>
-                      </th>
+                      </motion.th>
 
-                      <th className="px-6 py-4">About</th>
-                      <th className="px-6 py-4">Status</th>
+                      <motion.th {...framer_error} className="px-6 py-4">
+                        About
+                      </motion.th>
+                      <motion.th {...framer_error} className="px-6 py-4">
+                        Status
+                      </motion.th>
                     </tr>
                   </thead>
                   {isSelectTab && (
                     <tbody className="">
                       {[1, 2, 3, 4, 5, 6].map((item, _i) => (
                         <tr key={_i} className="trd ">
-                          <td className="whitespace-nowrap px-6 py-4 font-medium">
+                          <motion.td
+                            {...framer_error}
+                            className="whitespace-nowrap px-6 py-4 font-medium"
+                          >
                             <div className="flex items-center gap-5">
                               <div className="">
                                 <input
@@ -90,21 +99,30 @@ const Users = () => {
                                 </div>
                               </div>
                             </div>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
+                          </motion.td>
+                          <motion.td
+                            {...framer_error}
+                            className="whitespace-nowrap px-6 py-4"
+                          >
                             <div>
                               <h4>Design software</h4>
                               <h5 className="text-gray-500">
                                 Super lightweight design app
                               </h5>
                             </div>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
+                          </motion.td>
+                          <motion.td
+                            {...framer_error}
+                            className="whitespace-nowrap px-6 py-4"
+                          >
                             <button className="bg-[#ECFDF3] rounded-md text-[#027A48] px-2">
                               Customer
                             </button>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
+                          </motion.td>
+                          <motion.td
+                            {...framer_error}
+                            className="whitespace-nowrap px-6 py-4"
+                          >
                             <div className="flex items-center gap-5">
                               <button>
                                 <GoTrash size={23} />
@@ -113,7 +131,7 @@ const Users = () => {
                                 <GoPencil size={23} />
                               </button>
                             </div>
-                          </td>
+                          </motion.td>
                         </tr>
                       ))}
                     </tbody>
