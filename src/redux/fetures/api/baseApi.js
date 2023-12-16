@@ -8,6 +8,9 @@ const baseApi = createApi({
     getUsers: builder.query({
       query: () => "/api/users",
     }),
+    getPaginatedUsers: builder.query({
+      query: (pageNumber) => `/api/users?page=${pageNumber}`,
+    }),
     getLogUser: builder.query({
       query: () => "/api/login",
     }),
@@ -30,5 +33,6 @@ export const {
   useLazyGetUserByIdQuery,
   useSetUserMutation,
   useGetLogUserQuery,
+  useGetPaginatedUsersQuery,
 } = baseApi;
 export default baseApi;

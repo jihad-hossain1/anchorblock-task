@@ -5,18 +5,28 @@ import { HiArrowDown } from "react-icons/hi2";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { framer_error } from "../../../utils/fremer.motion";
-import { useGetUsersQuery } from "../../../redux/fetures/api/baseApi";
+import { useSelector } from "react-redux";
+import {
+  useGetPaginatedUsersQuery,
+  useGetUsersQuery,
+} from "../../../redux/fetures/api/baseApi";
+import PaginatedUser from "./PaginatedUser";
 
 const Users = () => {
   const [isSelectTab, setIsSelectTab] = useState(true);
   const { isError, isLoading, data, error } = useGetUsersQuery();
+
+  const { pageNumber } = useSelector((state) => state?.users);
+
+  const { data: userPagination } = useGetPaginatedUsersQuery(pageNumber);
+
   if (isLoading) {
     return <div>Data is loading.....</div>;
   }
   if (isError) {
     return <div> {error?.message} </div>;
   }
-  // console.log(data);
+
   return (
     <main className="mt-3">
       {/* import & add user section  */}
@@ -74,7 +84,7 @@ const Users = () => {
                   </thead>
                   {isSelectTab && (
                     <tbody className="">
-                      {data?.data?.map((item, _i) => (
+                      {userPagination?.data?.map((item, _i) => (
                         <tr key={_i} className="trd ">
                           <motion.td
                             {...framer_error}
@@ -143,22 +153,11 @@ const Users = () => {
                     </tbody>
                   )}
                   <tfoot>
-                    <tr>
-                      <th>
-                        <button className="cbtn border border-gray-300 font-normal my-2 mx-3">
-                          Previous
-                        </button>
-                      </th>
-                      <th></th>
-
-                      <th></th>
-
-                      <th>
-                        <button className="cbtn border border-gray-300 font-normal my-6 mx-3">
-                          Next
-                        </button>
-                      </th>
-                    </tr>
+                    <PaginatedUser
+                      userPage={userPagination?.page}
+                      numberOfUser={userPagination?.per_page}
+                      total_pages={userPagination?.total_pages}
+                    />
                   </tfoot>
                 </table>
               </div>
