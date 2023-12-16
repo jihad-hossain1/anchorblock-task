@@ -1,22 +1,22 @@
 export const navData = [
   {
-    path: "",
+    path: "dashboard",
     label: "Home",
   },
   {
-    path: "users",
+    path: "dashboard/users",
     label: "Users",
   },
   {
-    path: "projects",
+    path: "dashboard/projects",
     label: "Projects",
   },
   {
-    path: "tasks",
+    path: "dashboard/tasks",
     label: "Tasks",
   },
   {
-    path: "reporting",
+    path: "dashboard/reporting",
     label: "Reporting",
   },
 ];

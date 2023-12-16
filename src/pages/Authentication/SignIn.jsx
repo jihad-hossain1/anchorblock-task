@@ -1,36 +1,41 @@
-import { Link, useNavigate, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginLogo from "./LoginLogo";
-import { useForm } from "react-hook-form";
-import { motion } from "framer-motion";
-import { framer_error } from "../../utils/fremer.motion";
 import toast, { Toaster } from "react-hot-toast";
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import auth from "../../firebase/firebase.config";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useGetUsersQuery } from "../../redux/fetures/api/baseApi";
+import { loginUser } from "../../redux/fetures/UserSlice";
 
 const SignIn = () => {
+  const { data } = useGetUsersQuery();
+  const { loading, error } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {
-    isLoading,
-    isError,
-    error,
-    email: isEmail,
-  } = useSelector((state) => state.userSlice);
-  // console.log(isEmail, error);
 
-  const [gestEmail, setGestEmail] = useState("");
-  const [gestPassword, setGestPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    let userCrednt = {
+      email,
+      password,
+    };
 
-  const onSubmit = (data) => {
-    const { email, password } = data;
-    signInWithEmailAndPassword(auth, email, password);
+    let filt = data?.data.find((user) => user.email == email);
+
+    if (filt?.email == email) {
+      dispatch(loginUser(userCrednt)).then((result) => {
+        if (result.payload) {
+          setEmail("");
+          setPassword("");
+          navigate("/");
+        }
+      });
+    } else {
+      return toast.error(`${email} not match , use "gest user credentials" `);
+    }
   };
 
   return (
@@ -47,60 +52,37 @@ const SignIn = () => {
           </h4>
         </div>
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleLogin}
           className="flex flex-col gap-5 w-full md:w-[330px] mx-auto"
         >
           <div className="flex flex-col gap-3">
             <label htmlFor="email">Email</label>
             <input
-              {...register("email", {
-                required: {
-                  value: true,
-                  message: "Email field is required",
-                },
-              })}
-              defaultValue={gestEmail}
+              required
+              onChange={(e) => setEmail(e.target.value)}
+              defaultValue={email}
               type="email"
               name="email"
-              className={` ${
-                errors.email && "focus:outline-red-500 border border-red-500"
-              } cinpt`}
+              className="cinpt"
             />
-            {errors.email && (
-              <motion.span {...framer_error} className="text-sm text-red-600">
-                {errors?.email.message}
-              </motion.span>
-            )}
           </div>
           <div className="flex flex-col gap-3">
             <label htmlFor="password">Password</label>
             <input
-              defaultValue={gestPassword}
-              {...register("password", {
-                required: {
-                  value: true,
-                  message: "password field is required",
-                },
-              })}
+              required
+              onChange={(e) => setPassword(e.target.value)}
+              className="cinpt"
+              defaultValue={password}
               type="password"
               name="password"
-              className={` ${
-                errors.password && "focus:outline-red-500 border border-red-500"
-              } cinpt`}
             />
-
-            {errors.password && (
-              <motion.span {...framer_error} className="text-sm text-red-600">
-                {errors.password.message}
-              </motion.span>
-            )}
           </div>
           <div>
             <button
               type="submit"
               className="cbtn bg-[#6941C6] w-full text-zinc-50 py-2"
             >
-              SignIn
+              {loading ? "Loading..." : "SignIn"}
             </button>
           </div>
         </form>
@@ -109,13 +91,14 @@ const SignIn = () => {
             type="button"
             className="cbtn bg-green-600 w-full text-zinc-50 py-2"
             onClick={() => {
-              setGestEmail("a@a.com");
-              setGestPassword("123456");
+              setEmail("eve.holt@reqres.in");
+              setPassword("cityslicka");
             }}
           >
             Get Guest User Credentials
           </button>
         </div>
+        {error && <div className="bg-pink-200 rounded p-3 w-fit">{error}</div>}
         <div className="text-sm flex items-center gap-2">
           <h4 className="text-gray-500 ">Don’t have an account? </h4>{" "}
           <Link to={"/signup"} className="text-blue-600 hover:underline">

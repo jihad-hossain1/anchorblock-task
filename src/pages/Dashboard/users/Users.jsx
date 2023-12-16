@@ -5,10 +5,18 @@ import { HiArrowDown } from "react-icons/hi2";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { framer_error } from "../../../utils/fremer.motion";
+import { useGetUsersQuery } from "../../../redux/fetures/api/baseApi";
 
 const Users = () => {
   const [isSelectTab, setIsSelectTab] = useState(true);
-
+  const { isError, isLoading, data, error } = useGetUsersQuery();
+  if (isLoading) {
+    return <div>Data is loading.....</div>;
+  }
+  if (isError) {
+    return <div> {error?.message} </div>;
+  }
+  // console.log(data);
   return (
     <main className="mt-3">
       {/* import & add user section  */}
@@ -66,7 +74,7 @@ const Users = () => {
                   </thead>
                   {isSelectTab && (
                     <tbody className="">
-                      {[1, 2, 3, 4, 5, 6].map((item, _i) => (
+                      {data?.data?.map((item, _i) => (
                         <tr key={_i} className="trd ">
                           <motion.td
                             {...framer_error}
@@ -84,18 +92,16 @@ const Users = () => {
                               <div className="flex items-center gap-3">
                                 <div className=" w-fit">
                                   <img
-                                    src="https://reqres.in/img/faces/7-image.jpg"
+                                    src={item?.avatar}
                                     className="rounded-full w-14"
                                     alt=""
                                   />
                                 </div>
                                 <div>
                                   <h4 className="font-semibold text-lg">
-                                    Circooles
+                                    {item?.first_name}
                                   </h4>
-                                  <h5 className="font-normal">
-                                    michael.lawson@reqres.in
-                                  </h5>
+                                  <h5 className="font-normal">{item?.email}</h5>
                                 </div>
                               </div>
                             </div>

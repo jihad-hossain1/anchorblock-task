@@ -8,34 +8,42 @@ import Projects from "../pages/Dashboard/Projects/Projects";
 import SignIn from "../pages/Authentication/SignIn";
 import SignUp from "../pages/Authentication/SignUp";
 import PrivateRoute from "./PrivateRoute";
+import Home from "../pages/Home/Home";
+import MainLayout from "../layouts/MainLayout";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <DashboardLayout />,
+    element: <MainLayout />,
     children: [
       {
         index: true,
-        element: <DashboardHome />,
+        element: <Home />,
+      },
+    ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "/dashboard/users",
+        element: <Users />,
       },
       {
-        path: "/users",
-        element: (
-          <PrivateRoute>
-            <Users />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "/projects",
+        path: "/dashboard/projects",
         element: <Projects />,
       },
       {
-        path: "/tasks",
+        path: "/dashboard/tasks",
         element: <Tasks />,
       },
       {
-        path: "/reporting",
+        path: "/dashboard/reporting",
         element: <Reporting />,
       },
     ],

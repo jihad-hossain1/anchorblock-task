@@ -1,25 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import LoginLogo from "./LoginLogo";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { framer_error } from "../../utils/fremer.motion";
 import PasswordStrengthBar from "./PasswordStrengthBar";
 import toast, { Toaster } from "react-hot-toast";
-import { createUser } from "../../redux/fetures/users/userSlice";
+import { useSetUserMutation } from "../../redux/fetures/api/baseApi";
 
 const SignUp = () => {
+  const [setUser, { data: userData }] = useSetUserMutation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const {
-    isLoading,
-    isError,
-    error,
-    email: isEmail,
-  } = useSelector((state) => state.userSlice);
-  // console.log(email);
-  console.log(isEmail);
+
   const {
     register,
     handleSubmit,
@@ -28,22 +19,21 @@ const SignUp = () => {
     reset,
   } = useForm();
 
-  useEffect(() => {
-    if (isError && error) {
-      toast.error(error);
-    }
-  }, [isError, error]);
+  console.log(userData);
 
   const onSubmit = (data) => {
-    const { name, email, password } = data;
-    dispatch(createUser({ name, email, password }));
-    toast.success(`${name} your account create successfull`);
-    if (name && email && password) {
-      setTimeout(() => {
-        navigate("/");
-      }, 1500);
+    const info = {
+      email: data.email,
+      password: data.password,
+    };
+    setUser(info);
+    toast.success(`${data.email} your account create successfull`);
+
+    if (userData?.id == 4) {
+      localStorage.setItem("user", JSON.stringify(info));
+      navigate("/");
+      reset();
     }
-    reset();
   };
 
   return (
@@ -62,38 +52,12 @@ const SignUp = () => {
           className="flex flex-col gap-5 w-full md:w-[330px] mx-auto"
         >
           <div className="flex flex-col gap-3">
-            <label htmlFor="name">Name</label>
-            <input
-              {...register("name", {
-                required: {
-                  value: true,
-                  message: "name field is required",
-                },
-              })}
-              type="text"
-              name="name"
-              className={` ${
-                errors.name && "focus:outline-red-500 border border-red-500"
-              } cinpt`}
-            />
-            {errors.name && (
-              <motion.span {...framer_error} className="text-sm text-red-600">
-                {errors?.name.message}
-              </motion.span>
-            )}
-          </div>
-          <div className="flex flex-col gap-3">
             <label htmlFor="email">Email</label>
             <input
               {...register("email", {
                 required: {
                   value: true,
                   message: "Email field is required",
-                },
-                pattern: {
-                  value:
-                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                  message: "Email must be valid",
                 },
               })}
               type="email"
@@ -115,12 +79,6 @@ const SignUp = () => {
                 required: {
                   value: true,
                   message: "password field is required",
-                },
-                pattern: {
-                  value:
-                    /^(?=.*[0-9])(?=.*[!@#$%^&*.,])[a-zA-Z0-9!@#$%^&*.,]{6,16}$/,
-                  message:
-                    "Password must contain atleast 6 characters,one uppercase, one lowercase, one number and one special case character",
                 },
               })}
               type="password"
