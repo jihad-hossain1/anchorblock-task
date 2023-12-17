@@ -1,5 +1,5 @@
 import { AiOutlineCloudUpload } from "react-icons/ai";
-import { GoPlus, GoTrash, GoPencil } from "react-icons/go";
+import { GoPlus } from "react-icons/go";
 import { FiMinus } from "react-icons/fi";
 import { HiArrowDown } from "react-icons/hi2";
 import { useState } from "react";
@@ -11,9 +11,11 @@ import {
   useGetUsersQuery,
 } from "../../../redux/fetures/api/baseApi";
 import PaginatedUser from "./PaginatedUser";
+import SingleUser from "./SingleUser";
 
 const Users = () => {
   const [isSelectTab, setIsSelectTab] = useState(true);
+
   const { isError, isLoading, data, error } = useGetUsersQuery();
 
   const { pageNumber } = useSelector((state) => state?.users);
@@ -84,71 +86,15 @@ const Users = () => {
                   </thead>
                   {isSelectTab && (
                     <tbody className="">
+                      {/* {!searchData === ""
+                        ? searchData?.map((item) => (
+                            <SingleUser key={item?.id} item={item} />
+                          ))
+                        : userPagination?.data?.map((item, _i) => (
+                            <SingleUser item={item} key={_i} />
+                          ))} */}
                       {userPagination?.data?.map((item, _i) => (
-                        <tr key={_i} className="trd ">
-                          <motion.td
-                            {...framer_error}
-                            className="whitespace-nowrap px-6 py-4 font-medium"
-                          >
-                            <div className="flex items-center gap-5">
-                              <div className="">
-                                <input
-                                  type="checkbox"
-                                  className=""
-                                  name=""
-                                  id=""
-                                />
-                              </div>
-                              <div className="flex items-center gap-3">
-                                <div className=" w-fit">
-                                  <img
-                                    src={item?.avatar}
-                                    className="rounded-full w-14"
-                                    alt=""
-                                  />
-                                </div>
-                                <div>
-                                  <h4 className="font-semibold text-lg">
-                                    {item?.first_name}
-                                  </h4>
-                                  <h5 className="font-normal">{item?.email}</h5>
-                                </div>
-                              </div>
-                            </div>
-                          </motion.td>
-                          <motion.td
-                            {...framer_error}
-                            className="whitespace-nowrap px-6 py-4"
-                          >
-                            <div>
-                              <h4>Design software</h4>
-                              <h5 className="text-gray-500">
-                                Super lightweight design app
-                              </h5>
-                            </div>
-                          </motion.td>
-                          <motion.td
-                            {...framer_error}
-                            className="whitespace-nowrap px-6 py-4"
-                          >
-                            <button className="bg-[#ECFDF3] rounded-md text-[#027A48] px-2">
-                              Customer
-                            </button>
-                          </motion.td>
-                          <motion.td
-                            {...framer_error}
-                            className="whitespace-nowrap px-6 py-4"
-                          >
-                            <div className="flex items-center gap-5">
-                              <button>
-                                <GoTrash size={23} />
-                              </button>
-                              <button>
-                                <GoPencil size={23} />
-                              </button>
-                            </div>
-                          </motion.td>
-                        </tr>
+                        <SingleUser item={item} key={_i} />
                       ))}
                     </tbody>
                   )}

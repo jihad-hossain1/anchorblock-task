@@ -2,11 +2,11 @@ import { NavLink } from "react-router-dom";
 import { navData } from "./navData";
 import Paper from "./Paper";
 import { GoBell } from "react-icons/go";
-import { SlMagnifier } from "react-icons/sl";
 import { CiSettings } from "react-icons/ci";
 import { motion } from "framer-motion";
 import { motion_nav } from "../../utils/fremer.motion";
 import Dropdown from "../Dropdown/Dropdown";
+import SearchUserInput from "./SearchUserInput";
 
 const DashboardNavbar = () => {
   return (
@@ -41,7 +41,7 @@ const DashboardNavbar = () => {
 
           {/* login section  */}
           <motion.div {...motion_nav} className="flex items-center gap-6">
-            <SlMagnifier size={21} />
+            <SearchUserInput />
             <button>
               <GoBell size={21} />
             </button>

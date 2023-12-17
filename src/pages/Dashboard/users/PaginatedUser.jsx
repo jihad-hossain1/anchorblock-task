@@ -33,7 +33,8 @@ const PaginatedUser = ({ userPage, numberOfUser, total_pages }) => {
           </button>
         </th>
         <th></th>
-
+        <div className="fixed z-50 left-[50%] mt-2">{`${userPage}/${total_pages}`}</div>
+        <th></th>
         <th></th>
 
         <th>

@@ -30,7 +30,7 @@ const SignIn = () => {
         if (result.payload) {
           setEmail("");
           setPassword("");
-          navigate("/");
+          navigate("/dashboard");
         }
       });
     } else {
