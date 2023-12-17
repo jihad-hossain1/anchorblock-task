@@ -22,12 +22,27 @@ const baseApi = createApi({
     }),
     //mutaion
     setUser: builder.mutation({
-      query: (post) => ({
-        url: "/api/register",
+      query: (user) => ({
+        url: "/api/users",
         method: "POST",
-        body: post,
+        body: user,
       }),
+      
     }),
+    updateUser: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `/api/users/${id}`,
+        method: 'PUT',
+        body: data
+      })
+    }),
+    deleteUser: builder.mutation({
+      query: (id) =>({
+          url: `/api/users/${id}`,
+          method: 'DELETE',
+      })
+  })
+    
   }),
 });
 
@@ -37,5 +52,7 @@ export const {
   useGetLogUserQuery,
   useGetPaginatedUsersQuery,
   useGetUserByIdQuery,
+  useUpdateUserMutation,
+  useDeleteUserMutation
 } = baseApi;
 export default baseApi;

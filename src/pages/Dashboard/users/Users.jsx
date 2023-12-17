@@ -12,6 +12,7 @@ import {
 } from "../../../redux/fetures/api/baseApi";
 import PaginatedUser from "./PaginatedUser";
 import SingleUser from "./SingleUser";
+import AddUser from "./AddUser";
 
 const Users = () => {
   const [isSelectTab, setIsSelectTab] = useState(true);
@@ -38,9 +39,7 @@ const Users = () => {
           <button className="cbtn border border-gray-200 flex items-center gap-1">
             <AiOutlineCloudUpload size={20} /> Import
           </button>
-          <button className="cbtn flex items-center gap-1 bg-[#7F56D9] text-zinc-50 py-[5px]">
-            <GoPlus size={20} /> Add User
-          </button>
+          <AddUser />
         </div>
       </section>
       {/* user lists section  */}

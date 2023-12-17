@@ -1,8 +1,19 @@
 import { GoPencil, GoTrash } from "react-icons/go";
 import { framer_error } from "../../../utils/fremer.motion";
 import { motion } from "framer-motion";
+import UpdateUser from "./UpdateUser";
+import { useDeleteUserMutation } from "../../../redux/fetures/api/baseApi";
+import toast from "react-hot-toast";
 
 const SingleUser = ({ item }) => {
+  const [deleteData, { data: deletedData }] = useDeleteUserMutation();
+
+  const handleDelete = (itId) => {
+    deleteData({ itId });
+    console.log(itId);
+    toast.success(` ${item?.first_name} : delete successfull `);
+    console.log(deletedData);
+  };
   return (
     <>
       <tr className="trd ">
@@ -38,12 +49,10 @@ const SingleUser = ({ item }) => {
         </motion.td>
         <motion.td {...framer_error} className="whitespace-nowrap px-6 py-4">
           <div className="flex items-center gap-5">
-            <button>
+            <button onClick={() => handleDelete(item?.id)}>
               <GoTrash size={23} />
             </button>
-            <button>
-              <GoPencil size={23} />
-            </button>
+            <UpdateUser upData={item} />
           </div>
         </motion.td>
       </tr>
